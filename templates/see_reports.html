@@ -1,0 +1,101 @@
+{% extends "layout_dashboard.html" %}
+
+{% block title %}See Reports{% endblock %}
+
+{% block content %}
+
+<div class="columns is-vcentered">
+    <div class="column">
+        <h1  class="title is-1 has-text-centered"> Reports </h1>
+    </div>
+    <div class="column is-2">
+    <h3 class="subtitle"> Sort By </h3>
+    <form action="" method="post" name="sort">
+    <div class="field">
+        <div class="control">
+            <div class="select is-info">
+            <select name="sort_value" onchange="this.form.submit();">
+            <option value=" ">Sort</option>
+            <option value="date">Date</option>
+            <option value="price">Price</option>
+            <option value="full_name">Name</option>
+            </select>
+        </div>
+        </div>
+    </div>
+    </div>
+    </form>
+</div>
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% if messages[0][0] == "success" %}
+<ul class="flashes notification is-success is-light has-text-centered">
+ {% else %}
+<ul class="flashes notification is-danger is-light has-text-centered">   
+{% endif %}   
+{% for category, message in messages %}
+<li class="subtitle is-5">{{ message }}</li>
+<br />
+{% endfor %}
+</ul>
+{% endif %}
+{% endwith %} 
+<div class="columns">
+    <div class="column">
+        {% if data[0] %}
+        <div style="width:100%; height:100vh; overflow:auto;">
+        <article class="notification is-info is-light">
+        <table class=" table is-hoverable is-scrollable ">
+            <thead>
+                <th> Name</th>
+                <th> Oiled</th>
+                <th> Dark</th>
+                <th> Light</th>
+                <th> Edged</th>    
+                <th> Price</th>
+                <th> Date</th>
+            </thead>
+            <tfoot> <th> End of the Report </th> <th></th><th></th><th></th><th></th><th></th> </tfoot>    
+            {% for row  in data[0] %}
+                {% if row[3] > 0 %}
+                <tr>
+                    <td class="has-background-success"> {{row[9]}}</td>
+                    <td class="has-background-success"> {{row[4]}} KG </td>
+                    <td class="has-background-success">  {{row[5]}} KG </td>
+                    <td class="has-background-success">  {{row[6]}} KG </td>
+                    <td class="has-background-success">  {{row[7]}} KG </td>
+                    <td class="has-background-success">  {{row[3] | round(2,'floor')}}₺ </td>
+                    <td class="has-background-success">  {{row[2]}} </td>
+                </tr>
+                {% elif row[3] == 0 %}
+                <tr>
+                    <td class="has-background-info"> {{row[9]}} </td>
+                    <td class="has-background-info"> {{row[4]}} KG </td>
+                    <td class="has-background-info">  {{row[5]}} KG </td>
+                    <td class="has-background-info">  {{row[6]}} KG </td>
+                    <td class="has-background-info">  {{row[7]}} KG </td>
+                    <td class="has-background-info">  {{row[3] | round(2,'floor')}}₺ </td>
+                    <td class="has-background-info">  {{row[2]}} </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td class="has-background-warning"> {{row[9]}} </td>
+                    <td class="has-background-warning"> {{row[4]}} KG </td>
+                    <td class="has-background-warning">  {{row[5]}} KG </td>
+                    <td class="has-background-warning">  {{row[6]}} KG </td>
+                    <td class="has-background-warning">  {{row[7]}} KG </td>
+                    <td class="has-background-warning">  {{row[3]}}₺ </td>
+                    <td class="has-background-warning">  {{row[2]}} </td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+         </table> 
+         </article>
+        {% else %}
+        <article class="notification is-info is-light"> There is no transactions yet. <br /> <br /><br /></article>
+        {% endif %}
+    </div>
+</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends "layout_dashboard.html" %}
+
+{% block title %}Set Hazelnut Prices{% endblock %}
+
+{% block content %}
+<h1 class="title">Set Hazelnut Prices</h1>
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% if messages[0][0] == "success" %}
+<ul class="flashes notification is-success is-light has-text-centered">
+ {% else %}
+<ul class="flashes notification is-danger is-light has-text-centered">   
+{% endif %}   
+{% for category, message in messages %}
+<li class="subtitle is-5">{{ message }}</li>
+<br />
+{% endfor %}
+</ul>
+{% endif %}
+{% endwith %}  
+<div class="columns">
+<div class="column">
+<form action="" method="post" name="set_prices">
+  <div class="field">
+    <label for="oiled_price" class="label">Oiled 50%</label>
+    <div class="control">
+      <input type="number" name="oiled" class="input" value="0" min="0" max="10000" step="0.01"/>
+    </div>
+  </div>
+<div class="columns">
+  <div class="column">
+  <div class="field">
+    <label for="dark_price" class="label">Dark 50%</label>
+    <div class="control">
+      <input type="number" name="dark" class="input" value="0" min="0" max="100000" step="0.01"/>
+    </div>
+  </div>
+  <div class="field">
+    <label for="light_price" class="label">Light 50%</label>
+    <div class="control">
+      <input type="number" name="light" class="input" value="0" min="0" max="100000" step="0.01"/>
+    </div>
+  </div>
+  <div class="field">
+    <label for="edged_price" class="label">Edged 50%</label>
+    <div class="control">
+      <input type="number" name="edged" class="input" value="0" min="0" max="100000" step="0.01"/>
+    </div>
+  </div>
+
+  </div>
+</div>
+  <div class="field is-grouped">
+    <div class="control">
+      <button class="button is-primary is-medium">Set Prices</button>
+    </div>
+  </div>
+</form>
+</div>
+<div class="column"></div>
+</div>
+{% endblock %}

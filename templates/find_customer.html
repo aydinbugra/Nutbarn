@@ -1,0 +1,81 @@
+{% extends "layout_dashboard.html" %}
+
+{% block title %}Find Customer{% endblock %}
+
+{% block content %}
+<h1 class="title">Find Customer</h1>
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% if messages[0][0] == "success" %}
+<ul class="flashes notification is-success is-light has-text-centered">
+ {% else %}
+<ul class="flashes notification is-danger is-light has-text-centered">   
+{% endif %}   
+{% for category, message in messages %}
+<li class="subtitle is-5">{{ message }}</li>
+<br />
+{% endfor %}
+</ul>
+{% endif %}
+{% endwith %}  
+<div class="columns">
+    <div class="column is-3">
+        <form action="" method="post" name="find_customer_with_id">
+        <h3 class="subtitle">Find Customer With ID </h1>
+        <div class="field">
+            <label for="id" class="label">ID</label>
+            <div class="control">
+            <input type="number" name="id" class="input"
+                    min="0" max="100000"/>
+            </div>
+        </div>
+        <div class="field is-grouped">
+            <div class="control">
+            <button  name="submit" value="id" class="button is-primary is-small">Search</button>
+            </div>
+        </div>
+        </form>
+        <br />
+        <form action="" method="post" name="find_customer_with_name">
+            <h3 class="subtitle">Find Customer With Name</h1>
+            <div class="field">
+                <label for="full_name" class="label">Full Name</label>
+                <div class="control">
+                <input type="text" name="full_name" class="input" required="required"/>
+                </div>
+            </div>
+            <div class="field is-grouped">
+                <div class="control">
+                <button name="submit" value="name" class="button is-primary is-small">Search</button>
+                </div>
+            </div>
+            </form>
+    </div>
+    
+    <div class="column">
+        {% if data %}
+        <article class="notification is-info is-light">
+        <table class="table is-hoverable">
+            <thead>
+                <th> ID </th>
+                <th> Full Name</th>
+                <th>    </th>
+            </thead>
+            <tfoot> <th> End of Customers </th> <th></th>  <th></th></tfoot>    
+            {% for row  in data %}
+                <tr>
+                    <td> {{row[1]}} </td>
+                    <td> {{row[2]}} </td>
+                    <td><form action="{{url_for('see_details',user_name = user_name, user_type = user_type, id = row[1]) }}"> 
+                        <button  class="button is-warning"> Details </button> </form> </td>  
+                </tr>
+            {% endfor %}
+         </table> 
+         </article>
+        {% else %}
+        <article class="notification is-info is-light"> There is no customer yet. <br /> <br /><br /></article>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+

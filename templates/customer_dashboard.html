@@ -1,0 +1,153 @@
+{% extends "layout_dashboard.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block side_menu %}
+<script>
+  function calculate_price(){
+    oiled = parseInt(document.getElementById("oiled").value,10);
+    dark = parseInt(document.getElementById("dark").value,10);
+    light = parseInt(document.getElementById("light").value,10);
+    edged = parseInt(document.getElementById("edged").value,10);
+    price = (oiled * {{ price[0] }} * {{stats[5] }}) / 50.0  + (dark * {{price[1]}} * {{ stats[7] }}) /50.0 
+    +  (light * {{ price[2] }} * {{stats[9]}}) / 50.0 + edged * ({{price[3]}} * {{ stats[11]}}) / 50.0;
+    document.getElementById("price").value = price + "₺";
+  }
+</script>
+<article class="notification is-info is-light "> 
+  <h1 class="title is-2 has-text-centered"> Hazelnut Price</h1>
+  <h3 class="subtitle is-1 has-text-centered"> {{price[0] | round(2,'floor') }} ₺ </h3>
+</article>
+<div style="max-height:70vh; overflow:auto;">
+<article class="notification is-success is-light "> 
+  <h1 class="title is-2 has-text-centered">Transactions</h1>
+  {% if transactions %}
+  {% for transaction in transactions %}
+  {% if transaction[3] == 0 %}
+  <h3 class="subtitle is-6">
+          + Your Deposit data is created with {{transaction[4]}}KG Oiled,
+           {{transaction[5]}}KG Dark, {{transaction[6]}}KG Light, {{transaction[7]}}KG Edged in {{transaction[2]}} . <br /> 
+        </h3>
+        {% elif  transaction[3] > 0 %}
+        <h3 class="subtitle is-6">
+          - You sold {{transaction[4]}}KG Oiled, {{transaction[5]}}KG Dark, 
+          {{transaction[6]}}KG Light, {{transaction[7]}}KG Edged in {{transaction[2]}} for {{transaction[3] | round(2,'floor')}}₺. <br /> 
+        </h3>
+        {% else %}
+        <h3 class="subtitle is-6">+- transaction is edited to {{transaction[4]}}KG Oiled, {{transaction[5]}}KG Dark, 
+          {{transaction[6]}}KG Light, {{transaction[7]}}KG Edged.  <br />
+        </h3>
+        {% endif %}
+        {% endfor %}
+      {% else %}
+      <h3 class="subtitle is-6">
+       There is no transaction made.
+      </h3>
+{% endif %}
+</article>
+</div>
+{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title has-text-centered is-1">Dashboard</h1>
+      </div>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      {% if messages[0][0] == "success" %}
+      <ul class="flashes notification is-success is-light has-text-centered">
+       {% else %}
+      <ul class="flashes notification is-danger is-light has-text-centered">   
+      {% endif %}   
+      {% for category, message in messages %}
+      <li class="subtitle is-5">{{ message }}</li>
+      <br />
+      {% endfor %}
+      </ul>
+      {% endif %}
+      {% endwith %}    
+    <div class="columns">
+    <div class="column is-8">
+<div class="columns">
+  <div class="column">
+    <fieldset disabled>
+  <h1> Your Deposit Nuts</h1>     
+  <div class="field">
+    <label for="oiled" class="label">Oiled (Yield)</label>
+    <div class="control">
+      <input type="text" name="oiled" class="input" value="{{stats[4]}} KG ({{stats[5]}}%)" />
+    </div>
+  </div>
+  <div class="field">
+    <label for="oiled" class="label">Light (Yield)</label>
+    <div class="control">
+      <input type="text" name="light" class="input" value="{{stats[8]}} KG ({{stats[9]}}%)"/>
+    </div>
+  </div>
+  <div class="field">
+    <label for="oiled" class="label">Edged (Yield)</label>
+    <div class="control">
+      <input type="text" name="edged" class="input" value="{{stats[10]}} KG ({{stats[11]}}%)" />
+    </div>
+  </div>
+  <div class="field">
+    <label for="oiled" class="label">Dark (Yield)</label>
+    <div class="control">
+      <input type="text" name="dark" class="input" value="{{stats[6]}} KG ({{stats[7]}}%)" />
+    </div>
+  </div>
+  </div>
+</form>
+</fieldset>
+<form action="" method="post" name="sell_nuts"> 
+  <div class="column">
+    <h1> Sell Your Deposit Nuts</h1> 
+    <div class="field">
+      <label for="oiled" class="label" >Oiled (KG)</label>
+      <div class="control">
+        <input type="number" name="oiled_kg" required="required" class="input" id="oiled"  onchange="calculate_price()" value="0" min="0" max="{{stats[4]}}"/>
+      </div>
+    </div>
+    <div class="field">
+      <label for="oiled" class="label">Light (KG)</label>
+      <div class="control">
+        <input type="number" name="light_kg" required="required" class="input" id="light" onchange="calculate_price()" value="0" min="0" max="{{stats[8]}}"/>
+      </div>
+    </div>
+    <div class="field">
+      <label for="oiled" class="label">Edged (KG)</label>
+      <div class="control">
+        <input type="number" name="edged_kg" required="required" class="input"  id="edged" onchange="calculate_price()" value="0" min="0" max="{{stats[10]}}"/>
+      </div>
+    </div>
+    <div class="field">
+      <label for="oiled" class="label" >Dark (KG)</label>
+      <div class="control">
+        <input type="number" name="dark_kg"  required="required" class="input" id="dark" onchange="calculate_price()"value="0" min="0" max="{{stats[6]}}"/>
+      </div>
+    </div>
+    </div>
+</div>
+  <div class="field is-grouped is-grouped-right">
+    <fieldset disabled>
+      <div class="field is-horizontal">
+        <label for="price" class="label">Total Price</label>
+        <div class="control">
+          <input type="text" name="price" class="input" id="price" value="0₺" />
+        </div>
+      </div>
+    </fieldset>
+    <div class="control margin">
+      <button class="button is-primary is-medium">SELL</button>
+    </div>
+  </div>
+</form>
+     </div>
+    </div>
+
+    </div>
+  </section>
+
+{% endblock %}

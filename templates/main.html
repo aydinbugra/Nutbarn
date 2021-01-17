@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Nutbarn - Main Page</title>
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='design/main.css') }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.8.1/css/bulma.min.css"/>
+        <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+        <link rel="icon" href="{{ url_for('static',filename='design/favicon.png') }}">
+    </head>
+    
+    <body>
+                <br /> <br />
+                <nav class="level">
+                <div class="level-item px-3">
+                <figure class="image is-128x128 mx-4" >
+                  <img src="{{ url_for('static',filename='design/logo.png') }}" alt="Logo">
+                </figure>
+                <h1 class="title is-1 pr-3 has-text-grey"> | </h1>
+                <h1 class="title is-1 pl-6 has-text-blue">  NUTBARN</h1>
+              </div>
+              </nav>
+    <div class="columns  is-vcentered">
+        <div class="column"></div>
+        <div class="column is-4">
+            <p class="subtitle is-2"> 
+                Nutbarn is a depository hazelnut management system. You can <a href="{{ url_for('create_account')}}">create an account</a> for your company and start manage your 
+                depository hazelnuts. <br /><br />
+            </p>
+        </div>
+        <div class="column is-4">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+          {% if messages[0][0] == "success" %}
+          <ul class="flashes notification is-success is-light has-text-centered">
+           {% else %}
+          <ul class="flashes notification is-danger is-light has-text-centered">   
+          {% endif %}   
+          {% for category, message in messages %}
+          <li class="subtitle is-5">{{ message }}</li>
+          <br />
+          {% endfor %}
+          </ul>
+          {% endif %}
+          {% endwith %}  
+          <form action="" method="post" name="login">
+            <div class="field">
+                <p class="control has-icons-left has-icons-right">
+                  <input class="input is-medium"  name ="e-mail" type="email" placeholder="Email">
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-envelope"></i>
+                  </span>
+                </p>
+              </div>
+              <div class="field">
+                <p class="control has-icons-left">
+                  <input class="input is-medium"  name="password" type="password" placeholder="Password">
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                  </span>
+                </p>
+              </div>
+              <div class="field is-grouped is-grouped-right" >
+                <p class="control">
+                  <button class="button  is-medium is-success">
+                    Login
+                  </button>
+                  <button type="button" class="button is-link is-medium is-light" onclick="location.href='{{url_for('create_account')}}'">
+                    Sign in
+                  </button>
+                </p>
+              </div>
+            </form>
+        </div>
+        <div class="column"></div>
+    </div>
+
+    <section class="hero is-medium is-dark is-bold">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">
+            Manage Your Deposit Hazelnut
+          </h1>
+          <h2 class="subtitle">
+            You can create an account for your company for free and start keeping your customers' deposit hazelnut data in Nutbarn.
+            Nutbarn is a simple, powerful and free website.  
+          </h2>
+        </div>
+      </div>
+    </section>
+    <section class="hero is-medium is-warning is-bold">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">
+            See Your Branch's Data in Real-time 
+          </h1>
+          <h2 class="subtitle">
+            In Nutbarn, you can see your each branch's data in Real-time. You can reach detailed reports of your every branch instantly.
+            You can easily sign up now and add your branches to the Nutbarn in your dashboard. There is no need to sign up for every
+            branches. You can assign their username and passwords in your dashboard.     
+          </h2>
+        </div>
+      </div>
+    </section>
+    <section class="hero is-medium is-success is-bold">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">
+            Use Nutbarn in Your Branches
+          </h1>
+          <h2 class="subtitle">
+            Nutbarn provides powerful tools for your branches too. They can add, update and delete the customers easily.
+            In their Nutbarn Dashboard, they can see their stats, and hazelnut prices that are assigned by you.
+          </h2>
+        </div>
+      </div>
+    </section>
+    <section class="hero is-medium is-light is-bold">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">
+            Provide Online Selling Possibility to Your Customers
+          </h1>
+          <h2 class="subtitle">
+            Your customer can sell their deposit nuts in online with Nutbarn. You can see every transaction in real time.    
+          </h2>
+        </div>
+      </div>
+    </section>
+
+        <footer class="footer has-background-grey-light">
+            <small>&copy; 2020, Buğra Aydın <br /> 
+            <div>Icons made by <a href="https://www.flaticon.com/authors/pixelmeetup" title="Pixelmeetup">Pixelmeetup</a> and
+            <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div></small>
+          </footer>
+    </body>
+
+</html>

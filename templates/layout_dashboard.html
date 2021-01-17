@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" class="has-navbar-fixed-top">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Nutbarn - {% block title %}{% endblock %}</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='design/main.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.8.1/css/bulma.min.css"/>
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <link rel="icon" href="{{ url_for('static',filename='design/favicon.png') }}">
+</head>
+  </head>
+  <body>
+    <header>
+        <nav class="navbar is-fixed-top" aria-label="main navigation">
+          <div class="navbar-brand">
+            <a class="navbar-item" href="{{ url_for('main_page') }}">
+              <img src="{{ url_for('static',filename='design/logo-2.png') }}" alt="Logo" width="62" height="40" />
+            </a>
+            <span class="navbar-item">
+              <div class="dropdown is-hoverable">
+                <div class="dropdown-trigger">
+                  <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                    <span>User Settings</span>
+                    <span class="icon is-small">
+                      <i class="fas fa-angle-down" aria-hidden="true"></i>
+                    </span>
+                  </button>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                  <div class="dropdown-content">
+                    <a href="{{ url_for('change_password',user_type = user_type,user_name = user_name) }}" class="dropdown-item">
+                      Change Password
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </span>
+          </div>
+        </nav>
+      </header>
+
+    <main>
+        <section class="section">
+            <div class="columns">
+            <div class="column is-3 side-menu">
+              <div>
+                <aside>
+                    {% if user_type == 'branch' %}
+                  <p class="menu-label"> Test </p>
+                  <ul class="menu-list">
+                    <li><a href="{{ url_for('dashboard_page', user_name = user_name, user_type = user_type) }}">Dashboard</a> </li>
+                    <li><a href="{{ url_for('add_customer',user_type = user_type,user_name = user_name) }}">Add Customer</a> </li>
+                    <li><a href="{{ url_for('find_customer',user_type = user_type,user_name = user_name) }}">Find Customer</a> </li>
+                    <li><a href="{{ url_for('set_prices',user_type = user_type,user_name = user_name) }}">Set Hazelnut Prices</a> </li>
+                    <li><a href="{{ url_for('see_reports',user_type = user_type,user_name = user_name) }}">See Reports</a> </li>
+                  </ul>
+                </aside>
+                {% elif user_type == 'HQ' %}
+                <p class="menu-label"> Test </p>
+                <ul class="menu-list">
+                    <li><a href="{{ url_for('dashboard_page',user_type = user_type,user_name = user_name) }}">Dashboard</a> </li>
+                    <li><a href="{{ url_for('add_branch',user_type = user_type,user_name = user_name) }}">Add Branch</a> </li>
+                    <li><a href="{{ url_for('find_branch',user_type = user_type,user_name = user_name) }}">Find Branch</a> </li>
+                    <li><a href="{{ url_for('set_prices',user_type = user_type,user_name = user_name) }}">Set Hazelnut Prices</a> </li>
+                    <li><a href="{{ url_for('see_reports',user_type = user_type,user_name = user_name) }}">See Reports</a> </li>
+                </ul>
+                </aside>
+                {% else %}
+                {% block side_menu %} {% endblock %}
+                {% endif %}
+              </div>
+            </div>
+            <div class="column ">
+            <div class="content">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+        </section>
+    </main>
+
+    <footer class="footer has-background-grey-light">
+      <small>&copy; 2020, Buğra Aydın <br /> 
+      <div>Icons made by <a href="https://www.flaticon.com/authors/pixelmeetup" title="Pixelmeetup">Pixelmeetup</a> and
+      <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div></small>
+    </footer>
+  </body>
+</html>

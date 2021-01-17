@@ -1,0 +1,150 @@
+{% extends "layout_dashboard.html" %}
+
+{% block title %}
+{% if user_type == 'branch' %}
+See Customer Details
+{% else %}
+See Branch Details
+{% endif %}
+{% endblock %}
+
+{% block content %}
+{% if user_type == 'branch' %}
+<h1 class="has-text-centered title"> Customer Details</h1>
+{% else %}
+<h1 class="has-text-centered title"> Branch Details</h1>
+{% endif %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% if messages[0][0] == "success" %}
+<ul class="flashes notification is-success is-light has-text-centered">
+ {% else %}
+<ul class="flashes notification is-danger is-light has-text-centered">   
+{% endif %}   
+{% for category, message in messages %}
+<li class="subtitle is-5">{{ message }}</li>
+<br />
+{% endfor %}
+</ul>
+{% endif %}
+{% endwith %}  
+<div class="box has-background-grey-lighter">
+    <h2> ID: {{ id }} </h2>
+    <h2> Full name: {{data[0][0]}} </h2>
+</div>
+<div class="columns">
+  <div style="max-height:60vh; overflow:auto;">
+    <div class="column  notification is-warning ">
+        <h3 class="subtitle has-text-centered">Transactions</h3>
+        <hr />
+        {% if data[1] %}
+        {% for transaction in data[1] %}
+        {% if transaction[3] == 0 %}
+        <h3 class="subtitle is-6">
+          + Deposit data is created with {{transaction[4]}}KG Oiled,
+           {{transaction[5]}}KG Dark, {{transaction[6]}}KG Light, {{transaction[7]}}KG Edged in {{transaction[2]}} . <br /> 
+        </h3>
+        {% elif  transaction[3] > 0 %}
+        <h3 class="subtitle is-6">
+          - It is sold that {{transaction[4]}}KG Oiled, {{transaction[5]}}KG Dark, 
+          {{transaction[6]}}KG Light, {{transaction[7]}}KG Edged in {{transaction[2]}} for {{transaction[3] | round(2,'floor')}}₺. <br /> 
+        </h3>
+        {% else %}
+        <h3 class="subtitle is-6"> +- transaction is edited to {{transaction[4]}}KG Oiled, {{transaction[5]}}KG Dark, 
+          {{transaction[6]}}KG Light, {{transaction[7]}}KG Edged. <br />
+        </h3>
+        {% endif %}
+        {% endfor %}
+      {% else %}
+      <h3 class="subtitle is-6">
+       There is no transaction made.
+      </h3>
+      {% endif %}
+    </div>
+  </div>
+    <div class="column is-1"></div>
+    {% if user_type == 'branch' %}
+    <div class="column notification is-warning" style="min-width:45%;">
+        <h3 class="subtitle has-text-centered">Current Hazelnut Data</h3>    
+        <fieldset disabled>    
+            <div class="field">
+              <label for="oiled" class="label">Oiled (Yield)</label>
+              <div class="control">
+                <input type="text" name="oiled" class="input" value="{{data[2][4]}} KG ({{data[2][5]}}%)" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="oiled" class="label">Light (Yield)</label>
+              <div class="control">
+                <input type="text" name="light" class="input" value="{{data[2][8]}} KG ({{data[2][9]}}%)"/>
+              </div>
+            </div>
+            <div class="field">
+              <label for="oiled" class="label">Edged (Yield)</label>
+              <div class="control">
+                <input type="text" name="edged" class="input" value="{{data[2][10]}} KG ({{data[2][11]}}%)" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="oiled" class="label">Dark (Yield)</label>
+              <div class="control">
+                <input type="text" name="dark" class="input" value="{{data[2][6]}} KG ({{data[2][7]}}%)" />
+              </div>
+            </div>
+            </div>
+        </fieldset>
+    </div>
+    <div class="column is-1"></div>
+
+    <div class=" column notification is-warning  ">
+        <h3 class="subtitle has-text-centered">Edit Data</h3>
+        <form action="" method="post" name="edit_customer">
+            <div class="field">
+              <label for="oiled" class="label">Oiled (KG)</label>
+              <div class="control">
+                <input type="number" name="oiled_kg" class="input" value="0" min="0" max="100000"/>
+              </div>
+            </div>
+            <div class="field">
+              <label for="oiled" class="label">Light (KG)</label>
+              <div class="control">
+                <input type="number" name="light_kg" class="input" value="0" min="0" max="100000"/>
+              </div>
+            </div>
+            <div class="field">
+              <label for="oiled" class="label">Edged (KG)</label>
+              <div class="control">
+                <input type="number" name="edged_kg" class="input" value="0" min="0" max="100000"/>
+              </div>
+            </div>
+            <div class="field">
+              <label for="oiled" class="label">Dark (KG)</label>
+              <div class="control">
+                <input type="number" name="dark_kg" class="input" value="0" min="0" max="100000"/>
+              </div>
+            </div>
+            <button class="button is-success is-light" name="submit" value="edit"> Edit </button>
+            <button class="button is-danger is-light"  name="submit" value="delete"> Delete</button>
+        </form>
+    </div>
+    {% else %}
+    <div class=" column notification is-warning container ">
+      <h3 class="subtitle has-text-centered">Edit / Delete Branch</h3>
+      <form action="" method="post" name="edit_customer">
+        <div class="field">
+          <label for="full_name" class="label">New Name</label>
+          <div class="control">
+            <input type="text" name="full_name" class="input" placeholder="Name"/>
+          </div>
+        </div>
+        <div class="field is-grouped is-grouped-centered">
+          <button class="control button is-success is-light" name="submit" value="edit"> Edit </button>  
+          <button class="control button is-danger is-light"  name="submit" value="delete"> Delete</button>
+        </div>
+      </form>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+

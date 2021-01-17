@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Nutbarn - Create an Account</title>
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='design/main.css') }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.8.1/css/bulma.min.css"/>
+        <link rel="icon" href="{{ url_for('static',filename='design/favicon.png') }}">
+    </head>
+    
+    <body>
+          <nav class="level">
+            <div class="level-item px-3">
+            <a href="{{ url_for('main_page') }}"> 
+            <figure class="image is-128x128 mx-4" >
+              <img src="{{ url_for('static',filename='design/logo.png') }}" alt="Logo">
+            </figure>
+            </a>
+            <h1 class="title is-1 pr-3 has-text-grey"> | </h1>
+            <a href="{{ url_for('main_page') }}"> <h1 class="title is-1 pl-6 has-text-blue">  NUTBARN</h1> </a>
+          </div>
+          </nav>
+
+        <div class= "column is-offset-2 is-8">
+        <form action="" method="post" name="create_account">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+          {% if messages[0][0] == "success" %}
+          <ul class="flashes notification is-success is-light has-text-centered">
+           {% else %}
+          <ul class="flashes notification is-danger is-light has-text-centered">   
+          {% endif %}   
+          {% for category, message in messages %}
+          <li class="subtitle is-5">{{ message }}</li>
+          <br />
+          {% endfor %}
+          </ul>
+          {% endif %}
+          {% endwith %}           
+            <div class="field">
+              <label for="company_name" class="label">Corporation's Name</label>
+              <div class="control">
+                <input type="text" name="company_name" class="input" required="required"/>
+              </div>
+            </div>
+          
+            <div class="field">
+              <label for="username" class="label">Username</label>
+              <div class="control">
+                <input type="text" name="username" class="input" required="required"/>
+              </div>
+            </div>
+            <div class="field">
+              <label for="e-mail" class="label">E-mail</label>
+              <div class="control">
+                <input type="email" name="e-mail" class="input" required="required"/>
+              </div>
+            </div>
+            <div class="field">
+                <label for="password" class="label">Password</label>
+                <div class="control">
+                  <input type="password" name="password" class="input" required="required"/>
+                </div>
+              </div>
+              <div class="field">
+                <label for="password_conf" class="label">Confirm Password</label>
+                <div class="control">
+                  <input type="password" name="password_conf" class="input" required="required"/>
+                </div>
+              </div>
+              <label class="checkbox">
+                <input type="checkbox" required = "required">
+                I accept that all financial responsibility of my corporation is on me.  
+              </label>
+            <div class="field is-grouped">
+              <div class="control">
+                <button class="button is-primary is-medium">Sign In</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <footer class="footer has-background-grey-light">
+          <small>&copy; 2020, Buğra Aydın <br /> 
+          <div>Icons made by <a href="https://www.flaticon.com/authors/pixelmeetup" title="Pixelmeetup">Pixelmeetup</a> and
+          <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div></small>
+        </footer>
+    </body>
+
+</html>

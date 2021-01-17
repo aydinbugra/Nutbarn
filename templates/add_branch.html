@@ -1,0 +1,57 @@
+{% extends "layout_dashboard.html" %}
+
+{% block title %}Add Customer{% endblock %}
+
+{% block content %}
+<h1 class="title">Add a New Branch </h1>
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% if messages[0][0] == "success" %}
+<ul class="flashes notification is-success is-light has-text-centered">
+ {% else %}
+<ul class="flashes notification is-danger is-light has-text-centered">   
+{% endif %}   
+{% for category, message in messages %}
+<li class="subtitle is-5">{{ message }}</li>
+<br />
+{% endfor %}
+</ul>
+{% endif %}
+{% endwith %}    
+<div class="columns">
+<div class="column">
+<form action="" method="post" name="add_branch">
+  <div class="field">
+    <label for="full_name" class="label">Branch Name</label>
+    <div class="control">
+      <input type="text" name="branch_name" class="input" required="required"/>
+    </div>
+  </div>
+  <div class="field">
+    <label for="full_name" class="label">Branch E-mail</label>
+    <div class="control">
+      <input type="email" name="br_email" class="input" required="required"/>
+    </div>
+  </div>
+  <div class="field">
+    <label for="full_name" class="label">Branch Password</label>
+    <div class="control">
+      <input type="password" name="br_pass" class="input" required="required"/>
+    </div>
+  </div>
+  <div class="field">
+    <label for="full_name" class="label">Confirm Password</label>
+    <div class="control">
+      <input type="password" name="conf_br_pass" class="input" required="required"/>
+    </div>
+  </div>
+  <div class="field is-grouped">
+    <div class="control">
+      <button class="button is-primary is-medium">Add Branch</button>
+    </div>
+  </div>
+</form>
+</div>
+<div class="column"></div>
+</div>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "layout_dashboard.html" %}
+
+{% block title %}Find Branch{% endblock %}
+
+{% block content %}
+<h1 class="title has-text-centered">Find Branch</h1>
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% if messages[0][0] == "success" %}
+<ul class="flashes notification is-success is-light has-text-centered">
+ {% else %}
+<ul class="flashes notification is-danger is-light has-text-centered">   
+{% endif %}   
+{% for category, message in messages %}
+<li class="subtitle is-5">{{ message }}</li>
+<br />
+{% endfor %}
+</ul>
+{% endif %}
+{% endwith %}  
+<div class="columns">
+    <div class="column">
+        {% if data %}
+        <div style="width:100%; max-height:100vh; overflow:auto;">
+        <article  class="notification is-success is-light">
+            {% for row  in data %}
+                <box class="box">
+                    <div class="columns is-gapless">
+                        <div class="column is-4">
+                        <h3 class="subtitle has-text-danger"> {{ row[0] }} </h3>
+                        <form action="{{url_for('see_details',user_name = user_name, user_type = user_type, id = row[10]) }}"> 
+                        <button  class="button is-warning"> Details </button> </form>
+                        <h3 class="subtitle ">total customer:  {{ row[1] }} </h3>
+                        </div>
+                        {% if row[2]%}
+                        <div class="column is-4">
+                            <h3 class="subtitle ">total oiled nut:  {{ row[2] }} KG</h3>
+                            <hr style="background-color:#11BDCF;" />
+                            <h3 class="subtitle ">total dark nut: {{ row[3] }} KG</h3>
+                            <hr style="background-color:#11BDCF;" />
+                            <h3 class="subtitle ">total light nut: {{ row[4] }} KG </h3>
+                            <hr style="background-color:#11BDCF;" />
+                            <h3 class="subtitle ">total edged nut: {{ row[5] }} KG</h3>
+                            <hr style="background-color:#11BDCF;" />
+                        </div>
+                        <div class="column is-4">
+                            <h3 class="subtitle ">Average oiled yield: {{ row[6] | round(2,'floor') }}</h3> 
+                            <hr style="background-color:#11BDCF;" />
+                            <h3 class="subtitle ">Average dark yield: {{ row[7] | round(2,'floor')  }} </h3>
+                            <hr style="background-color:#11BDCF;" />
+                            <h3 class="subtitle ">Average light yield: {{ row[8] | round(2,'floor')  }} </h3>
+                            <hr style="background-color:#11BDCF;" />
+                            <h3 class="subtitle ">Average edged yield: {{ row[9] | round(2,'floor')  }} </h3>
+                            <hr style="background-color:#11BDCF;" />
+                        </div>
+                        {% endif %}
+                    </div>
+                </box>
+                
+            {% endfor %}
+         </table> 
+         </article>
+        {% else %}
+        <article class="notification is-info is-light"> There is no branch yet. <br /> <br /><br /></article>
+        {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

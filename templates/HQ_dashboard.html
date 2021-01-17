@@ -1,0 +1,96 @@
+{% extends "layout_dashboard.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-body">
+    <div class="columns">
+    <div class="column is-6">
+      <div class="container">
+        <h1 class="title is-1">Stats</h1>
+      </div>
+     </div>
+    <div class="column"></div>
+    </div>
+
+    <div class="tile is-ancestor">
+            <div class="tile is-parent is-vertical">
+                <article class="tile is-child notification is-info">
+                <p class="title">Total Customers</p>
+                <p class="subtitle">{{ stats[0][0] }}<br /><br /><br /></p>
+                </article>
+
+                <article class="tile is-child notification is-info">
+                    <p class="title">Total Dark Hazelnuts</p>
+                    {%if stats[0][3] %}
+                    <p class="subtitle">{{ stats[0][3] }} kg<br /><br /><br /></p>
+                    {% else %}
+                    <p class="subtitle"> 0 kg <br /><br /><br /></p>
+                    {% endif %}
+                </article>
+
+            <article class="tile is-child notification is-info">
+                <p class="title">Total Edged Hazelnuts</p>
+                {%if stats[0][4] %}
+                <p class="subtitle">{{ stats[0][4] }} kg<br /><br /><br /></p>
+                {% else %}
+                <p class="subtitle"> 0 kg <br /><br /><br /></p>
+                {% endif %}
+            </article>
+            </div>
+            <div class="tile is-parent is-vertical">
+              <article class="tile is-child notification is-info">
+                <p class="title">Total Oiled Hazelnuts</p>
+                {%if stats[0][1] %}
+                <p class="subtitle">{{ stats[0][1] }} kg<br /><br /><br /></p>
+                {% else %}
+                <p class="subtitle"> 0 kg <br /><br /><br /></p>
+                {% endif %}
+              </article>
+
+              <article class="tile is-child notification is-info">
+                <p class="title">Total Light Hazelnuts</p>
+                {%if stats[0][2] %}
+                <p class="subtitle">{{ stats[0][2] }} kg<br /><br /><br /></p>
+                {% else %}
+                <p class="subtitle"> 0 kg <br /><br /><br /></p>
+                {% endif %}
+              </article>
+
+              <article class="tile is-child notification is-info">
+                <p class="title">Total Branch Count</p>
+                <p class="subtitle">{{ stats[1][0] }}<br /><br /><br /></p>
+              </article>
+            </div>
+
+            <div class="tile is-parent is-vertical">
+                  <article class="tile is-child notification is-info">
+                    <p class="title">Average yield</p>
+                    {%if stats[0][5] %}
+                    <p class="subtitle">{{ stats[0][5] | round(2, 'floor') }} %<br /><br /><br /></p>
+                    {% else %}
+                    <p class="subtitle"> There is no nuts.</p>
+                    {% endif %}
+                  </article>
+
+                  <article class="tile is-child notification is-info">
+                    <p class="title">50% Oiled Hazelnut Price</p>
+                    {%if stats[2][0] %}
+                    <p class="subtitle"> {{ stats[2][0] |round(2, 'floor') }}₺ <br /><br /><br /></p>
+                    {% else %}
+                    <p class="subtitle"> No price is set since there is no branch.</p>
+                    {% endif %}
+                  </article>
+
+                  <article class="tile is-child notification is-info">
+                    <p class="title">Best Branch</p>
+                    <p class="subtitle">{{stats[3]}}<br /><br /><br /></p>
+                  </article>
+            </div>
+            <div class="tile is-parent is-vertical"></div>
+    </div>
+</div>
+  </section>
+
+{% endblock %}
