@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home_page():
-    return "Hello, world!"
+    return "Heroku automatic deployment test"
 
 
 if __name__ == "__main__":
