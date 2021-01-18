@@ -111,7 +111,7 @@ def dashboard_page(user_type, user_name):
                              AVG((OILED_KG * OILED_YIELD + DARK_KG * DARK_YIELD + LIGHT_KG * LIGHT_YIELD + EDGED_KG* EDGED_YIELD)
                                 / (OILED_KG+DARK_KG+LIGHT_KG+EDGED_KG+10E-6))
                              FROM DEPOSITS WHERE (BRANCH_ID = (SELECT ID FROM USERS WHERE USERNAME = %s)) """  # deposit_stats
-            statement_3 = "SELECT AVG(OILED) FROM PRICES WHERE (BRANCH_ID = (SELECT ID FROM USERS WHERE USERNAME = %s))"
+            statement_3 = "SELECT AVG(OILED),AVG(LIGHT),AVG(DARK) FROM PRICES WHERE (BRANCH_ID = (SELECT ID FROM USERS WHERE USERNAME = %s))"
             try:
                 connection = dbapi2.connect(dsn)
                 cursor = connection.cursor()
@@ -121,7 +121,7 @@ def dashboard_page(user_type, user_name):
                 # stats.append( cursor.fetchone() )   # stats[1][0] -> branch count
                 cursor.execute(statement_3, (user_name,))
 
-                # stats[1][0] ->  oiled hazelnut price
+                # stats[1] -> hazelnut prices
                 stats.append(cursor.fetchone())
                 connection.commit()
                 cursor.close()
@@ -690,6 +690,9 @@ def see_details(user_type,user_name,id):
             try:
                 connection = dbapi2.connect(dsn)
                 cursor = connection.cursor()
+                if user_type == 'HQ': # delete all customers of the branch
+                    statement_2 = """ DELETE FROM USERS WHERE ID IN (SELECT CHILD_ID FROM RELATIONS WHERE PARENT_ID = %s) """
+                    cursor.execute(statement_2, (id,))
                 cursor.execute(statement_1, (id,))
                 connection.commit()
                 cursor.close()
