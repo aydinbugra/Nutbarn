@@ -63,7 +63,7 @@ def dashboard_page(user_type, user_name):
             stats = []
             statement_1 = """SELECT COUNT(ID),SUM(OILED_KG), SUM(LIGHT_KG), SUM(DARK_KG), SUM(EDGED_KG),
                              AVG((OILED_KG * OILED_YIELD + DARK_KG * DARK_YIELD + LIGHT_KG * LIGHT_YIELD + EDGED_KG* EDGED_YIELD)
-                                / (OILED_KG+DARK_KG+LIGHT_KG+EDGED_KG))
+                                / (OILED_KG+DARK_KG+LIGHT_KG+EDGED_KG+10E-6))
                              FROM DEPOSITS WHERE (HQ_ID = (SELECT ID FROM USERS WHERE USERNAME = %s)) """  # deposit_stats
             statement_2 = """SELECT COUNT(BRANCHES.USER_ID)
                              FROM (SELECT CHILD_ID FROM RELATIONS WHERE (PARENT_ID = (SELECT ID FROM USERS WHERE USERNAME = %s))) AS A
